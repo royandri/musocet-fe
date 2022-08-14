@@ -2,13 +2,15 @@ import React, { PropsWithChildren, useEffect, useReducer, useState } from 'react
 import { useSocket } from '../hooks/useSocket';
 import { defaultSocketContextState, SocketContextProvider, SocketReducer, UserType } from './SocketContext';
 
+import { SOCKET_HOST } from "../configs";
+
 export interface ISocketContextComponentProps extends PropsWithChildren {}
 
 const SocketContextComponent: React.FunctionComponent<ISocketContextComponentProps> = (props) => {
     const { children } = props;
     const userId = localStorage.getItem("USER_ID") ?? '""';
 
-    const socket = useSocket('https://4e52-180-254-111-80.ngrok.io', {
+    const socket = useSocket(SOCKET_HOST, {
         reconnectionAttempts: 5,
         reconnectionDelay: 1000,
         autoConnect: false,
