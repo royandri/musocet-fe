@@ -85,6 +85,12 @@ const SongPlayer = () => {
             fontSize="3xl"
             fontWeight="bold"
             padding="10"
+            border="4px"
+            borderColor="black"
+            style={{
+              whiteSpace: "normal",
+              wordWrap: "break-word",
+            }}
           >
             Press The Bell 🔔
           </Button>
