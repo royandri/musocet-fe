@@ -81,6 +81,10 @@ const SocketContextComponent: React.FunctionComponent<
 
     socket.on("set_song", (data: any) => {
       SocketDispatch({ type: "set_song", payload: data });
+      const parsed = JSON.parse(data);
+      if (parsed?.status === "play" || parsed?.status === "continue") {
+        SocketDispatch({ type: "push_bell", payload: undefined });
+      }
     });
 
     socket.on(
@@ -95,6 +99,9 @@ const SocketContextComponent: React.FunctionComponent<
       const status = JSON.parse(data)?.status;
       if (status) {
         SocketDispatch({ type: "control_song", payload: status });
+        if (status === "play" || status === "continue") {
+          SocketDispatch({ type: "push_bell", payload: undefined });
+        }
       }
     });
 

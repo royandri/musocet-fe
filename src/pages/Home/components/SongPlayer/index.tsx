@@ -77,11 +77,8 @@ const SongPlayer = () => {
           </audio>
         </div>
         <br />
-        {song.status === "stop" ? null : pushedBell ? (
-          <Text fontSize="xl" width="full" textAlign="center">
-            It's <strong>{pushedBell}</strong> time to shine !
-          </Text>
-        ) : song.status === "play" || song.status === "continue" ? (
+        {song.status === "stop" ? null : song.status === "play" ||
+          song.status === "continue" ? (
           <Button
             colorScheme="telegram"
             onClick={handleOnBell}
@@ -91,6 +88,10 @@ const SongPlayer = () => {
           >
             Press The Bell 🔔
           </Button>
+        ) : pushedBell ? (
+          <Text fontSize="xl" width="full" textAlign="center">
+            It's <strong>{pushedBell}</strong> time to shine !
+          </Text>
         ) : null}
       </Box>
     </Card>

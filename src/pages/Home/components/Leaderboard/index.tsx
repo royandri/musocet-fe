@@ -3,13 +3,17 @@ import Card from "components/Card";
 import { VStack, HStack, Text, Avatar, Box } from "@chakra-ui/react";
 import SocketContext from "context/SocketContext";
 
-const Leaderboard = () => {
+type LeaderboardProps = {
+  fullHeight?: boolean;
+};
+
+const Leaderboard = ({ fullHeight = false }: LeaderboardProps) => {
   const { users } = useContext(SocketContext).SocketState;
   const sortedUser = useMemo(() => {
     return users.sort((a, b) => (a.score < b.score ? 1 : -1));
   }, [users]);
   return (
-    <Card>
+    <Card fullHeight={fullHeight}>
       <VStack spacing={5} alignItems="start">
         <Text fontSize="2xl" fontWeight="extrabold" color="black">
           Leaderboard

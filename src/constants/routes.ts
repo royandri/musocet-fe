@@ -5,16 +5,16 @@ type Route = {
   component: any;
 };
 
-const Application = lazy(() => import("Application"));
+const Home = lazy(() => import("pages/Home"));
 const Admin = lazy(() => import("pages/Admin"));
 
 const routes: Route[] = [
   {
     path: "/",
-    component: Application,
+    component: Home,
   },
   {
-    path: "/secret-route",
+    path: "/control",
     component: Admin,
   },
 ];

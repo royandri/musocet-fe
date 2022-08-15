@@ -98,7 +98,7 @@ export const SocketReducer = (
       return {
         ...state,
         pushedBell:
-          (action.payload.users as UserType[]).find(
+          (action?.payload?.users as UserType[])?.find(
             (user) => user.userId === action.payload.userId
           )?.name || "",
       };
