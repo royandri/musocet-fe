@@ -16,7 +16,7 @@ const Statistic = () => {
     if (!user.name) {
       onToggle();
     }
-  }, []);
+  }, [user.name]);
   return (
     <>
       <Card>

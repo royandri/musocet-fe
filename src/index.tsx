@@ -1,12 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Application from "./Application";
 import reportWebVitals from "./reportWebVitals";
 import SocketContextComponent from "./context/SocketContextComponent";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
-import Home from "./pages/Home";
 import routes from "constants/routes";
 
 const root = ReactDOM.createRoot(
