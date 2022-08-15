@@ -6,6 +6,7 @@ type CardProps = {
   size?: "md" | "sm" | "xl" | "lg";
   backgroundColor?: string;
   fullHeight?: boolean;
+  height?: any;
 };
 
 const Card = ({
@@ -13,10 +14,11 @@ const Card = ({
   size = "md",
   backgroundColor = "teal.100",
   fullHeight = false,
+  height,
 }: CardProps) => {
   return (
     <Container
-      height={fullHeight ? "100vh" : undefined}
+      height={fullHeight ? "100vh" : height}
       maxW={`container.${size}`}
       borderRadius="xl"
       border="4px"

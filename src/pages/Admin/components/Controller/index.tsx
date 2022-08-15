@@ -1,11 +1,24 @@
-import React, { useContext } from "react";
-import { VStack, Button, Flex, Box, Text } from "@chakra-ui/react";
+import React, { useContext, useState } from "react";
+import {
+  VStack,
+  Button,
+  Flex,
+  Box,
+  Text,
+  Select,
+  NumberInput,
+  NumberInputField,
+} from "@chakra-ui/react";
 import Card from "components/Card";
 import SocketContext from "context/SocketContext";
 import { APP_HOST } from "configs";
 
 const Controller = () => {
-  const { pushedBell, song } = useContext(SocketContext).SocketState;
+  const { pushedBell, song, users } = useContext(SocketContext).SocketState;
+  const [user, setUser] = useState({
+    userId: "",
+    score: 0,
+  });
 
   const handleOnChangeStatus = async (status: string) => {
     try {
@@ -51,8 +64,89 @@ const Controller = () => {
     }
   };
 
+  const handleOnSetPoint = async () => {
+    try {
+      await fetch(
+        `${APP_HOST}/set_score?userId=${user.userId}&score=${user.score}`,
+        {
+          method: "POST",
+        }
+      );
+    } catch {
+      alert("Failed set score");
+    }
+  };
+
   return (
     <Card fullHeight backgroundColor="pink">
+      <Flex gap={4}>
+        <Box flex="5">
+          <Card backgroundColor="none" height="180px">
+            <VStack spacing={2} alignItems="start">
+              <Text fontSize="2xl" fontWeight="bold" color="black">
+                SP: {song?.position ?? 0}
+              </Text>
+              <Text fontSize="2xl" fontWeight="bold" color="black">
+                PB:{" "}
+                {["continue", "play"].includes(song.status) ? "" : pushedBell}
+              </Text>
+            </VStack>
+          </Card>
+        </Box>
+        <Box flex="7">
+          <Card backgroundColor="none" height="180">
+            <VStack spacing={2} alignItems="start">
+              <Select
+                borderColor="black"
+                color="black"
+                placeholder="Select user"
+                _hover={{ borderColor: "black" }}
+                value={user.userId}
+                onChange={(e) =>
+                  setUser((prev) => ({ ...prev, userId: e.target.value }))
+                }
+              >
+                {users.map((u) => (
+                  <option key={u.userId} value={u.userId}>
+                    {u.name || u.userId}
+                  </option>
+                ))}
+              </Select>
+              <Flex gap={2}>
+                <Box flex="6">
+                  <NumberInput
+                    value={user.score ?? 0}
+                    onChange={(val) =>
+                      setUser((prev) => ({
+                        ...prev,
+                        score: val !== "" ? parseInt(val) : 0,
+                      }))
+                    }
+                  >
+                    <NumberInputField
+                      borderColor="black"
+                      color="black"
+                      _hover={{ borderColor: "black" }}
+                    />
+                  </NumberInput>
+                </Box>
+                <Box flex="6">
+                  <Button
+                    colorScheme="orange"
+                    fontWeight="bold"
+                    width="full"
+                    onClick={handleOnSetPoint}
+                    disabled={!user.userId}
+                  >
+                    Set Point
+                  </Button>
+                </Box>
+              </Flex>
+            </VStack>
+          </Card>
+        </Box>
+      </Flex>
+
       <VStack width="full" padding="10" spacing="10">
         <Flex alignItems="baseline" justifyItems="center" gap={2}>
           <Box flex="3">
@@ -123,34 +217,6 @@ const Controller = () => {
           </Box>
         </Flex>
       </VStack>
-
-      <Flex gap={4}>
-        <Box flex="5">
-          <Card backgroundColor="none">
-            <VStack spacing={2} alignItems="start">
-              <Text fontSize="2xl" fontWeight="bold" color="black">
-                SP: {song?.position ?? 0}
-              </Text>
-              <Text fontSize="2xl" fontWeight="bold" color="black">
-                PB:{" "}
-                {["continue", "play"].includes(song.status) ? "" : pushedBell}
-              </Text>
-            </VStack>
-          </Card>
-        </Box>
-        <Box flex="7">
-          <Card backgroundColor="none">
-            <VStack spacing={2} alignItems="start">
-              <Text fontSize="2xl" fontWeight="bold" color="black">
-                SP: {song?.position ?? 0}
-              </Text>
-              <Text fontSize="2xl" fontWeight="bold" color="black">
-                PB:
-              </Text>
-            </VStack>
-          </Card>
-        </Box>
-      </Flex>
     </Card>
   );
 };
