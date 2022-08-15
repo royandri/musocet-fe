@@ -3,16 +3,22 @@ import { Container } from "@chakra-ui/react";
 
 type CardProps = {
   children: React.ReactNode;
+  size?: "md" | "sm" | "xl" | "lg";
+  backgroundColor?: string;
 };
 
-const Card = ({ children }: CardProps) => {
+const Card = ({
+  children,
+  size = "md",
+  backgroundColor = "teal.100",
+}: CardProps) => {
   return (
     <Container
-      maxW="container.md"
+      maxW={`container.${size}`}
       borderRadius="xl"
       border="4px"
       borderColor="black"
-      backgroundColor="teal.100"
+      backgroundColor={backgroundColor}
       padding="10"
     >
       {children}

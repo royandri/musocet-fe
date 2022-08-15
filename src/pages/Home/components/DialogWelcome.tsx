@@ -21,7 +21,7 @@ type DialogWelcomeProps = {
 const DialogWelcome = ({ isOpen, onClose }: DialogWelcomeProps) => {
   const initialRef = useRef<HTMLInputElement>(null);
   const { socket, user } = useContext(SocketContext).SocketState;
-
+  
   const handleOnChangeName = () => {
     if (socket) {
       socket.emit("set_name", {
@@ -34,7 +34,12 @@ const DialogWelcome = ({ isOpen, onClose }: DialogWelcomeProps) => {
 
   return (
     <>
-      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
+      <Modal
+        initialFocusRef={initialRef}
+        isOpen={isOpen}
+        onClose={onClose}
+        closeOnOverlayClick={false}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
@@ -55,12 +60,7 @@ const DialogWelcome = ({ isOpen, onClose }: DialogWelcomeProps) => {
                 Cancel
               </Button>
             )}
-            <Button
-              colorScheme="green"
-              mr={3}
-              onClick={handleOnChangeName}
-              disabled={!!initialRef.current?.value}
-            >
+            <Button colorScheme="green" mr={3} onClick={handleOnChangeName}>
               Save
             </Button>
           </ModalFooter>
