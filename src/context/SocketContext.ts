@@ -102,13 +102,14 @@ export const SocketReducer = (
           )?.name || "",
       };
     case "set_score":
+      const payload = JSON.parse(action.payload);
       return {
         ...state,
-        users: action.payload.users,
-        ...(state.user.userId === action.payload.userId && {
+        users: payload.users,
+        ...(state.user.userId === payload.userId && {
           user: {
             ...state.user,
-            score: action.payload.score,
+            score: payload.score,
           },
         }),
       };
