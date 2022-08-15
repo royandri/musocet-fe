@@ -61,7 +61,6 @@ const Application: React.FunctionComponent<IApplicationProps> = (props) => {
       }, 300);
     }
   }, [song]);
-  console.log(users);
 
   return (
     <div>
