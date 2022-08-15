@@ -44,7 +44,18 @@ const Statistic = () => {
             <Text fontSize="xl" fontWeight="extrabold" color="black">
               {user.score} point(s)
             </Text>
-            <Button colorScheme="red" onClick={onToggle}>
+            <Button
+              colorScheme="red"
+              onClick={onToggle}
+              border="4px"
+              borderColor="black"
+              padding="5"
+              style={{
+                whiteSpace: "normal",
+                wordWrap: "break-word",
+              }}
+              fontWeight="bold"
+            >
               Change My Name
             </Button>
           </Box>
