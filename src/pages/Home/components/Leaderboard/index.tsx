@@ -2,7 +2,6 @@ import React, { useContext, useMemo } from "react";
 import Card from "components/Card";
 import { VStack, HStack, Text, Avatar, Box } from "@chakra-ui/react";
 import SocketContext from "context/SocketContext";
-// import { Flipper, Flipped } from "react-flip-toolkit";
 
 const Leaderboard = () => {
   const { users } = useContext(SocketContext).SocketState;
@@ -17,6 +16,7 @@ const Leaderboard = () => {
         </Text>
         {sortedUser.map((data) => (
           <Box
+            key={data.userId}
             display="flex"
             justifyContent="space-between"
             width="full"

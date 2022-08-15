@@ -16,26 +16,35 @@ const SongPlayer = () => {
   const audioRef = useRef<any>();
 
   useEffect(() => {
-    if (song.status === "stop") {
-      if (audioRef.current) {
+    if (audioRef.current) {
+      if (song.status === "pause") {
+        audioRef.current.pause();
+        return;
+      }
+
+      if (song.status === "continue") {
+        audioRef.current.play();
+        return;
+      }
+
+      if (song.status === "stop") {
         setSongSrc("");
         audioRef.current.pause();
 
         setTimeout(() => {
           audioRef.current.load();
         }, 300);
+        return;
       }
-      return;
-    }
 
-    if (song.position) {
-      setSongSrc("");
-      audioRef.current.load();
+      if (song.status === "play" && song.position) {
+        setSongSrc("");
+        audioRef.current.load();
 
-      setTimeout(() => {
-        if (audioRef.current) {
+        setTimeout(() => {
           setSongSrc(`./assets/songs/${song.position}.mp3`);
           audioRef.current.load();
+
           setTimeout(() => {
             audioRef.current.play();
             dispatch({
@@ -46,41 +55,43 @@ const SongPlayer = () => {
               },
             });
           }, 300);
-        }
-      }, 300);
+        }, 300);
+      }
     }
   }, [song]);
+
   return (
     <Card>
       <Text fontSize="3xl" fontWeight="bold" color="black" textAlign="center">
-        {song.status === "play" ? "Guess the song! 🐣	" : "Wait a moment... 🥚"}
+        {song.status === "stop" && "Wait a moment... 🥚"}
+        {(song.status === "play" || song.status === "continue") &&
+          "Guess the song! 🐣	"}
+        {song.status === "pause" && "Song paused! ⏳ "}
       </Text>
 
-      {song.status === "play" && (
-        <Box alignItems="center" display="flex" flexDir="column">
-          <div>
-            <audio controls ref={audioRef}>
-              <source src={songSrc} type="audio/mp3" />
-            </audio>
-          </div>
-          <br />
-          {pushedBell ? (
-            <Text fontSize="xl" width="full" textAlign="center">
-              It's <strong>{pushedBell}</strong> time to shine !
-            </Text>
-          ) : (
-            <Button
-              colorScheme="telegram"
-              onClick={handleOnBell}
-              fontSize="3xl"
-              fontWeight="bold"
-              padding="10"
-            >
-              Press The Bell 🔔
-            </Button>
-          )}
-        </Box>
-      )}
+      <Box alignItems="center" display={"flex"} flexDir="column">
+        <div>
+          <audio controls={false} ref={audioRef}>
+            <source src={songSrc} type="audio/mp3" />
+          </audio>
+        </div>
+        <br />
+        {song.status === "stop" ? null : pushedBell ? (
+          <Text fontSize="xl" width="full" textAlign="center">
+            It's <strong>{pushedBell}</strong> time to shine !
+          </Text>
+        ) : song.status === "play" || song.status === "continue" ? (
+          <Button
+            colorScheme="telegram"
+            onClick={handleOnBell}
+            fontSize="3xl"
+            fontWeight="bold"
+            padding="10"
+          >
+            Press The Bell 🔔
+          </Button>
+        ) : null}
+      </Box>
     </Card>
   );
 };

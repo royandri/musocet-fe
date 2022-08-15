@@ -48,19 +48,16 @@ const SocketContextComponent: React.FunctionComponent<
   const StartListeners = () => {
     /** Messages */
     socket.on("user_connected", (users: UserType[]) => {
-      console.info("User connected message received");
       SocketDispatch({ type: "update_users", payload: users });
     });
 
     /** Messages */
     socket.on("user_disconnected", (uid: string) => {
-      console.info("User disconnected message received", uid);
       SocketDispatch({ type: "remove_user", payload: uid });
     });
 
     /** Connection / reconnection listeners */
     socket.io.on("reconnect", (attempt) => {
-      console.info("Reconnected on attempt: " + attempt);
       SendHandshake();
     });
 
@@ -83,20 +80,25 @@ const SocketContextComponent: React.FunctionComponent<
     });
 
     socket.on("set_song", (data: any) => {
-      console.info("set_song", data);
       SocketDispatch({ type: "set_song", payload: data });
     });
 
     socket.on(
       "user_push_bell",
       (data: { userId: string; users: UserType[] }) => {
-        console.log(data, "user_push_bell");
         SocketDispatch({ type: "push_bell", payload: data });
+        SocketDispatch({ type: "control_song", payload: "pause" });
       }
     );
 
+    socket.on("user_control_song", (data: any) => {
+      const status = JSON.parse(data)?.status;
+      if (status) {
+        SocketDispatch({ type: "control_song", payload: status });
+      }
+    });
+
     socket.on("set_score", (data: any) => {
-      console.info("set_score", data);
       SocketDispatch({ type: "set_score", payload: data });
     });
   };
@@ -106,7 +108,6 @@ const SocketContextComponent: React.FunctionComponent<
 
     socket.emit("handshake", async (uid: string, users: string[]) => {
       localStorage.setItem("USER_ID", JSON.stringify(uid));
-      console.log(users, "users");
       SocketDispatch({ type: "update_users", payload: users });
       SocketDispatch({ type: "update_uid", payload: uid });
     });

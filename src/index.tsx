@@ -4,7 +4,7 @@ import Application from "./Application";
 import reportWebVitals from "./reportWebVitals";
 import SocketContextComponent from "./context/SocketContextComponent";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider } from "@chakra-ui/react";
 
 import Home from "./pages/Home";
 import routes from "constants/routes";
@@ -13,7 +13,6 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-console.log(routes);
 root.render(
   <SocketContextComponent>
     <ChakraProvider>

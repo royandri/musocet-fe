@@ -21,7 +21,7 @@ type DialogWelcomeProps = {
 const DialogWelcome = ({ isOpen, onClose }: DialogWelcomeProps) => {
   const initialRef = useRef<HTMLInputElement>(null);
   const { socket, user } = useContext(SocketContext).SocketState;
-  
+
   const handleOnChangeName = () => {
     if (socket) {
       socket.emit("set_name", {

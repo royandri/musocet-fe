@@ -32,7 +32,7 @@ export const defaultSocketContextState: ISocketContextState = {
   },
   song: {
     position: "",
-    status: "",
+    status: "stop",
   },
   pushedBell: "",
 };
@@ -45,7 +45,8 @@ export type TSocketContextActions =
   | "set_song"
   | "set_name"
   | "push_bell"
-  | "set_score";
+  | "set_score"
+  | "control_song";
 export type TSocketContextPayload = any;
 
 export interface ISocketContextActions {
@@ -112,6 +113,14 @@ export const SocketReducer = (
             score: payload.score,
           },
         }),
+      };
+    case "control_song":
+      return {
+        ...state,
+        song: {
+          ...state.song,
+          status: action.payload,
+        },
       };
     default:
       return state;
