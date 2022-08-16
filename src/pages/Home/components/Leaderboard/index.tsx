@@ -44,18 +44,7 @@ const Leaderboard = ({ fullHeight = false, height }: LeaderboardProps) => {
         className=""
       >
         <VStack spacing={5} alignItems="start" overflowY="auto" maxH="full">
-          {[
-            ...sortedUser,
-            ...sortedUser,
-            ...sortedUser,
-            ...sortedUser,
-            ...sortedUser,
-            ...sortedUser,
-            ...sortedUser,
-            ...sortedUser,
-            ...sortedUser,
-            ...sortedUser,
-          ].map((data) => {
+          {sortedUser.map((data) => {
             return <ScoreCard data={data} key={data.userId} />;
           })}
         </VStack>
