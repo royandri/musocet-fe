@@ -42,7 +42,7 @@ const SongPlayer = () => {
         audioRef.current.load();
 
         setTimeout(() => {
-          setSongSrc(`./assets/songs/${song.position}.mp3`);
+          setSongSrc(`./assets/songs/${song.position}.mp4`);
           audioRef.current.load();
 
           setTimeout(() => {
