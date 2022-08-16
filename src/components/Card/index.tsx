@@ -19,6 +19,7 @@ const Card = ({
   return (
     <Container
       height={fullHeight ? "100vh" : height}
+      maxH={fullHeight ? "100vh" : height}
       maxW={`container.${size}`}
       borderRadius="xl"
       border="4px"
@@ -26,6 +27,17 @@ const Card = ({
       backgroundColor={backgroundColor}
       padding="10"
       overflowY="auto"
+      sx={{
+        "&::-webkit-scrollbar": {
+          width: "8px",
+          borderRadius: "8px",
+          backgroundColor: `rgba(0, 0, 0, 0.05)`,
+        },
+        "&::-webkit-scrollbar-thumb": {
+          backgroundColor: "#A0AEC0",
+          borderRadius: "8px",
+        },
+      }}
     >
       {children}
     </Container>
